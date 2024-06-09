@@ -1,0 +1,30 @@
+def count_pairs_with_difference(nums, k):
+    from collections import defaultdict
+
+    count = 0
+    activity_count = defaultdict(int)
+
+    # Count the occurrences of each activity number
+    for num in nums:
+        activity_count[num] += 1
+
+    # For k = 0, we need to count pairs of users who have the same number of activities
+    if k == 0:
+        for num in activity_count:
+            if activity_count[num] > 1:
+                count += (activity_count[num] * (activity_count[num] - 1)) // 2
+    else:
+        # For k > 0, we count the valid pairs
+        for num in activity_count:
+            if (num + k) in activity_count:
+                count += activity_count[num] * activity_count[num + k]
+
+    return count
+
+# Reading input
+n = int(input().strip())
+nums = list(map(int, input().strip().split()))
+k = int(input().strip())
+
+# Output the result
+print(count_pairs_with_difference(nums, k))
